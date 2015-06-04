@@ -1,0 +1,30 @@
+inherit lua
+
+NAME="lua-logging"
+VERSION=1.1.4
+RELEASE=2
+CATEGORY="Lua"
+SUMMARY="Lua logging library"
+DESCRIPTION="LuaLogging provides a simple API to use logging features in Lua.
+Its design was based on log4j. LuaLogging currently supports, through the use
+of appenders, console, file, email, socket and sql outputs."
+HOMEPAGE="http://www.keplerproject.org/lualogging/"
+SRC_URI="http://luaforge.net/frs/download.php/2693/lualogging-${VERSION}.tar.gz"
+SRC_DIR="lualogging-${VERSION}"
+
+DIFF_EXCLUDES="test*.log"
+
+src_compile() { :; }
+
+src_install() {
+	cd ${S}
+	cyginstall PREFIX=${D}/usr
+
+	for lang in br us
+	do
+		docinto html/${lang}
+		dodoc doc/${lang}/*
+	done
+}
+
+HTMLDOCS="*.html *.png"
