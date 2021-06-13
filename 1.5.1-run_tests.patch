@@ -1,0 +1,12 @@
+--- origsrc/lualogging-1.5.1/tests/run_tests.sh	2021-03-23 04:31:03.000000000 +0900
++++ src/lualogging-1.5.1/tests/run_tests.sh
+@@ -2,6 +2,9 @@
+ 
+ set -e
+ 
++LUA=${LUA:-lua}
++LUA_PATH=${LUA_PATH:-$(${LUA} -e 'print(package.path)')}
++
+ LUA_PATH="../src/?.lua;$LUA_PATH" lua test.lua
+ 
+ rm -f test.db test.log*

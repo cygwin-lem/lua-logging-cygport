@@ -1,18 +1,58 @@
 inherit lua
 
 NAME="lua-logging"
-VERSION=1.3.0
-RELEASE=2
+VERSION=1.5.1
+RELEASE=1
 CATEGORY="Lua"
 SUMMARY="Lua logging library"
-DESCRIPTION="LuaLogging provides a simple API to use logging features in Lua.
-Its design was based on log4j. LuaLogging currently supports, through the use
-of appenders, console, file, email, socket and sql outputs."
-HOMEPAGE="http://www.keplerproject.org/lualogging/"
-SRC_URI="https://github.com/Neopallium/lualogging/archive/v${VERSION}/lualogging-v${VERSION}.tar.gz"
-SRC_DIR="lualogging-${VERSION}"
+DESCRIPTION="\
+LuaLogging provides a simple API to use logging features in Lua.
+Its design was based on log4j. LuaLogging currently supports, through
+the use of appenders, console, file, email, socket and sql outputs.
+"
+HOMEPAGE="https://lunarmodules.github.io/lualogging/"
 
-ARCH=noarch
+GIT_REPO="https://github.com/lunarmodules/lualogging"
+declare -A GIT_DATEHASH_BY_NAME=(
+  # git log --date=iso-strict --format='%cd/%H' -1
+  [1.5.1]=2021-03-22T20:31:03+01:00/v1.5.1
+)
+REV_HASH="${GIT_DATEHASH_BY_NAME[${VERSION}]#*/}"
+REV_DATE="${GIT_DATEHASH_BY_NAME[${VERSION}]%%/*}"
+REV_DATE_SHORT="${REV_DATE%%T*}"
+GIT_BASENAME="${GIT_REPO##*/}"
+SRC_URI="${GIT_REPO}/archive/${REV_HASH}/${GIT_BASENAME}-${VERSION}.tar.gz"
+SRC_DIR="${GIT_BASENAME}-${REV_HASH#v}"
+
+ARCH="noarch"
+
+################################
+## Patch files
+################################
+# Patch filenames are in a default style of 'git format-patch'
+PATCH_URI=$(\
+  find -maxdepth 1 -type f -name '[0-9][0-9][0-9][0-9]-*.patch' \
+  | sort \
+)
+# Additional patches, if any
+PATCH_URI+="
+  1.5.1-run_tests.patch
+"
+
+################################
+## Requirements for building
+################################
+BUILD_REQUIRES="\
+  lua\
+  liblua-devel\
+\
+  lua-socket\
+"
+# TEST_REQUIRES="\
+#   lua-socket\
+# "
+
+################################
 
 DIFF_EXCLUDES="test*.log"
 
@@ -22,7 +62,12 @@ src_install() {
 	cd ${S}
 	cyginstall LUA_DIR=${D}${LUA_SCRIPTDIR}
 
-	dodoc doc/html/
+	dodoc docs/
+}
+
+src_test() {
+	cd ${S}
+	LUA=${LUA} cygmake test
 }
 
 HTMLDOCS="*.html *.png"
