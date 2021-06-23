@@ -1,5 +1,5 @@
 category: Lua
-requires: lua54-logging lua54-socket lua53
+requires: lua53 lua53-socket
 sdesc: "Lua logging library"
 ldesc: "LuaLogging provides a simple API to use logging features in Lua.
 Its design was based on log4j. LuaLogging currently supports, through
