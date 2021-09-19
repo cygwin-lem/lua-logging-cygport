@@ -1,7 +1,7 @@
 inherit lua
 
 NAME="lua-logging"
-VERSION=1.5.1
+VERSION=1.5.2
 RELEASE=1
 CATEGORY="Lua"
 SUMMARY="Lua logging library"
@@ -15,6 +15,7 @@ HOMEPAGE="https://lunarmodules.github.io/lualogging/"
 GIT_REPO="https://github.com/lunarmodules/lualogging"
 declare -A GIT_DATEHASH_BY_NAME=(
   # git log --date=iso-strict --format='%cd/%H' -1
+  [1.5.2]=2021-08-12T19:29:39+02:00/v1.5.2
   [1.5.1]=2021-03-22T20:31:03+01:00/v1.5.1
 )
 REV_HASH="${GIT_DATEHASH_BY_NAME[${VERSION}]#*/}"
